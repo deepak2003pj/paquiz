@@ -57,7 +57,7 @@ th,td{padding:8px 6px;border-bottom:1px solid var(--line);text-align:left;white-
 <div class="wrap" id="wrap">
  <section id="s1">
   <h1>Process Audit Quiz 2026</h1>
-  <p class="sub">20 questions Â· 20 marks Â· based on the Revised PA Sheet 2026</p>
+  <p class="sub">20 questions · 20 marks · based on the Revised PA Sheet 2026</p>
   <div class="card">
    <label for="nm">Your name</label>
    <input id="nm" type="text" autocomplete="off" placeholder="Enter full name">
@@ -124,7 +124,7 @@ th,td{padding:8px 6px;border-bottom:1px solid var(--line);text-align:left;white-
     <input id="tc" type="text" inputmode="numeric" autocomplete="off" maxlength="7">
     <div class="err" id="terr"></div>
    </div>
-   <button class="btn" id="rcdone">I have saved it Â· Continue</button>
+   <button class="btn" id="rcdone">I have saved it · Continue</button>
   </div>
  </section>
 
@@ -201,7 +201,7 @@ function elAns(el,c){return el[2]==='n'?(el[4]==='ord'?ordf(el[3]):String(el[3])
 function blankQ(c,el,dept){
   var d=alts(el,c,dept).slice(0,3); if(d.length<3) return null;
   var ans=elAns(el,c);
-  return {prompt:'Fill in the blank Â· '+c.reg, text:c.t.slice(0,el[0])+'______'+c.t.slice(el[1]), answer:ans, options:shuffle(d.concat([ans])), chosen:null, key:'b'+c.t+el[0]};
+  return {prompt:'Fill in the blank · '+c.reg, text:c.t.slice(0,el[0])+'______'+c.t.slice(el[1]), answer:ans, options:shuffle(d.concat([ans])), chosen:null, key:'b'+c.t+el[0]};
 }
 function stmtQ(c,dept){
   if(c.t.length>230) return null;
@@ -214,20 +214,20 @@ function stmtQ(c,dept){
     if(!seen[v]){seen[v]=1;vs.push(v)}
   }
   if(vs.length<3) return null;
-  return {prompt:'Which statement is correct as per the PA Sheet? Â· '+c.reg, text:'', answer:c.t, options:shuffle(vs.concat([c.t])), chosen:null, key:'s'+c.t};
+  return {prompt:'Which statement is correct as per the PA Sheet? · '+c.reg, text:'', answer:c.t, options:shuffle(vs.concat([c.t])), chosen:null, key:'s'+c.t};
 }
 function marksQ(dept,r){
   var regs=DATA[dept].regs, tots=uniq(regs.map(function(x){return x.total}).filter(function(v){return v>0&&v!==r.total})), near=[];
   [.05,.1,.15,-.05,-.1].forEach(function(s){var v=Math.round((r.total+s)*100)/100;if(v>0&&tots.indexOf(v)<0)near.push(v)});
   var d=shuffle(tots).slice(0,3); if(d.length<3) d=d.concat(shuffle(near).slice(0,3-d.length));
   var ans=mk(r.total);
-  return {prompt:'Maximum marks Â· '+dept, text:'What is the sub total (maximum marks) for â'+r.reg+'â in the PA Sheet?', answer:ans, options:shuffle(d.map(mk).concat([ans])), chosen:null, key:'m'+r.reg};
+  return {prompt:'Maximum marks · '+dept, text:'What is the sub total (maximum marks) for “'+r.reg+'” in the PA Sheet?', answer:ans, options:shuffle(d.map(mk).concat([ans])), chosen:null, key:'m'+r.reg};
 }
 function highQ(dept){
   var by={};shuffle(DATA[dept].regs.filter(function(r){return r.total>0})).forEach(function(r){if(!by[r.total])by[r.total]=r});
   var vals=shuffle(Object.keys(by)); if(vals.length<4) return null;
   var pick=vals.slice(0,4).map(function(v){return by[v]}), top=pick.slice().sort(function(a,b){return b.total-a.total})[0];
-  return {prompt:'Maximum marks Â· '+dept, text:'Which of these carries the highest sub total marks in the PA Sheet?', answer:top.reg, options:shuffle(pick.map(function(r){return r.reg})), chosen:null, key:'h'};
+  return {prompt:'Maximum marks · '+dept, text:'Which of these carries the highest sub total marks in the PA Sheet?', answer:top.reg, options:shuffle(pick.map(function(r){return r.reg})), chosen:null, key:'h'};
 }
 function rr(items,k){
   var g={};shuffle(items).forEach(function(x){(g[x.reg]=g[x.reg]||[]).push(x)});
@@ -259,7 +259,7 @@ function buildQuiz(dept){
 function begin(){S.qs=buildQuiz(S.dept);S.i=0;show('s2');render()}
 function render(){
   var q=S.qs[S.i];
-  $('who').textContent=S.name+' Â· '+S.dept;
+  $('who').textContent=S.name+' · '+S.dept;
   $('cnt').textContent='Question '+(S.i+1)+' of '+S.qs.length;
   $('pb').style.width=(S.i/S.qs.length*100)+'%';
   $('qp').textContent=q.prompt;$('rule').textContent=q.text;
@@ -275,9 +275,9 @@ function qLabel(q){return q.text||q.prompt}
 function finish(){
   var sc=S.qs.filter(function(q){return q.chosen===q.answer}).length,n=S.qs.length;
   S.score=sc;S.ts=Date.now();S.when=new Date(S.ts).toLocaleString();
-  $('rname').textContent=S.name+' Â· '+S.dept+' department';
+  $('rname').textContent=S.name+' · '+S.dept+' department';
   $('rscore').textContent=sc+' / '+n;
-  $('rsub').textContent=Math.round(sc/n*100)+'% Â· '+S.when;
+  $('rsub').textContent=Math.round(sc/n*100)+'% · '+S.when;
   var rv=$('review');rv.innerHTML='';
   S.qs.forEach(function(q,i){
     var ok=q.chosen===q.answer,d=document.createElement('div');d.className='rev';
@@ -287,7 +287,7 @@ function finish(){
     if(!ok){var c=document.createElement('div');c.className='a';c.textContent='Correct answer: '+q.answer;d.appendChild(c)}
     rv.appendChild(d);
   });
-  $('pb').style.width='100%';$('saved').textContent='Saving resultâ¦';show('s3');
+  $('pb').style.width='100%';$('saved').textContent='Saving result…';show('s3');
   saveResult();
 }
 async function saveResult(){
@@ -299,7 +299,7 @@ async function saveResult(){
     var wrong=S.qs.filter(function(q){return q.chosen!==q.answer}).map(function(q){return {q:qLabel(q).slice(0,200),a:String(q.chosen).slice(0,160),c:String(q.answer).slice(0,160)}});
     prev.push({id:'a'+S.ts+Math.random().toString(36).slice(2,6),name:S.name,dept:S.dept,score:S.score,total:S.qs.length,ts:S.ts,wrong:wrong});
     await ref.set({attempts:prev.slice(-15)});
-    $('saved').textContent='Result recorded â';
+    $('saved').textContent='Result recorded ✓';
   }catch(e){$('saved').textContent='Could not record the result. Ask the admin to share this page with Contributor access.'}
 }
 
@@ -449,7 +449,7 @@ function dash(){
   var rows=A.rows,a=agg(rows),names=uniq(rows.map(function(r){return r.name.toLowerCase()+'|'+r.dept}));
   $('stats').innerHTML=[['Attempts',a.n],['Candidates',names.length],['Average',a.avg.toFixed(1)+' / 20'],['Average %',a.pct+'%'],['Highest',a.best]].map(function(x){return '<div class="stat"><b>'+x[1]+'</b><span>'+x[0]+'</span></div>'}).join('');
   var h='<table><tr><th>Department</th><th>Attempts</th><th>Average</th><th>Avg %</th><th>Best</th><th>Lowest</th></tr>';
-  Object.keys(DATA).forEach(function(d){var g=agg(rows.filter(function(r){return r.dept===d}));h+='<tr><td>'+esc(d)+'</td><td>'+g.n+'</td><td>'+(g.n?g.avg.toFixed(1):'â')+'</td><td>'+(g.n?g.pct+'%':'â')+'</td><td>'+(g.n?g.best:'â')+'</td><td>'+(g.n?g.low:'â')+'</td></tr>'});
+  Object.keys(DATA).forEach(function(d){var g=agg(rows.filter(function(r){return r.dept===d}));h+='<tr><td>'+esc(d)+'</td><td>'+g.n+'</td><td>'+(g.n?g.avg.toFixed(1):'–')+'</td><td>'+(g.n?g.pct+'%':'–')+'</td><td>'+(g.n?g.best:'–')+'</td><td>'+(g.n?g.low:'–')+'</td></tr>'});
   $('dtab').innerHTML=h+'</table>';
   var q=$('fq').value.trim().toLowerCase(),fd=$('fd').value;
   var f=rows.filter(function(r){return (!fd||r.dept===fd)&&(!q||r.name.toLowerCase().indexOf(q)>=0)});
@@ -458,7 +458,7 @@ function dash(){
   if(A.tab==='att'){
     f.forEach(function(r){
       var pct=Math.round(r.score/r.total*100),d=document.createElement('div');d.className='att';
-      d.innerHTML='<div class="ah"><div><b>'+esc(r.name)+'</b><small>'+esc(r.dept)+' Â· '+new Date(r.ts).toLocaleString()+'</small></div><span class="tag '+(pct>=70?'ok':(pct<40?'bad':''))+'">'+r.score+' / '+r.total+' Â· '+pct+'%</span></div><div class="det hidden"></div>';
+      d.innerHTML='<div class="ah"><div><b>'+esc(r.name)+'</b><small>'+esc(r.dept)+' · '+new Date(r.ts).toLocaleString()+'</small></div><span class="tag '+(pct>=70?'ok':(pct<40?'bad':''))+'">'+r.score+' / '+r.total+' · '+pct+'%</span></div><div class="det hidden"></div>';
       var det=d.querySelector('.det');
       d.querySelector('.ah').onclick=function(){
         if(!det.classList.toggle('hidden')&&!det.innerHTML){
@@ -507,13 +507,13 @@ async function csv(){
   $('copy').onclick=function(){
     var t='Process Audit Quiz 2026\nName: '+S.name+'\nDepartment: '+S.dept+'\nScore: '+S.score+'/'+S.qs.length+'\nDate: '+S.when;
     var done=function(m){$('copy').textContent=m;setTimeout(function(){$('copy').textContent='Copy result'},1800)};
-    try{navigator.clipboard.writeText(t).then(function(){done('Copied â')},function(){done('Copy not allowed')})}catch(e){done('Copy not allowed')}
+    try{navigator.clipboard.writeText(t).then(function(){done('Copied ✓')},function(){done('Copy not allowed')})}catch(e){done('Copy not allowed')}
   };
   $('agree').onclick=adminGo;
   $('aforgot').onclick=function(){aform('forgot')};
   $('aowner').onclick=function(){aform('owner')};
   $('rcdone').onclick=setupDone;
-  $('rccopy').onclick=function(){try{navigator.clipboard.writeText($('rcode').textContent).then(function(){$('rccopy').textContent='Copied â'},function(){$('rccopy').textContent='Select and copy the code above'})}catch(x){$('rccopy').textContent='Select and copy the code above'}};
+  $('rccopy').onclick=function(){try{navigator.clipboard.writeText($('rcode').textContent).then(function(){$('rccopy').textContent='Copied ✓'},function(){$('rccopy').textContent='Select and copy the code above'})}catch(x){$('rccopy').textContent='Select and copy the code above'}};
   $('aback').onclick=function(){if(A.mode==='change')openDash();else if(A.mode==='forgot'||A.mode==='owner')aform('login');else show('s1')};
   $('chg').onclick=function(){aform('change')};
   $('out').onclick=function(){if(A.unsub){A.unsub();A.unsub=null}A.rows=[];$('nm').value='';$('serr').textContent='';show('s1')};
